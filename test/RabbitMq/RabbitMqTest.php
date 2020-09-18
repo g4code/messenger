@@ -31,6 +31,9 @@ class RabbitMqTest extends \PHPUnit_Framework_TestCase
      */
     private $channel;
 
+    /**
+     * @var \PDO
+     */
     private $pdo;
 
     public function setUp()
