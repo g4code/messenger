@@ -18,7 +18,7 @@ class MessageEntity
     /**
      * @var array
      */
-    private $message;
+    private $messageBody;
 
     /**
      * @var integer
@@ -34,20 +34,20 @@ class MessageEntity
      * MessageEntity constructor.
      * @param string $exchangeName
      * @param string $routingKey
-     * @param array $message
+     * @param array $messageBody
      * @param integer $tsCreated
      * @param integer $id
      */
     public function __construct(
         $exchangeName,
         $routingKey,
-        array $message,
+        array $messageBody,
         $tsCreated,
         $id = null
     ) {
         $this->exchangeName = $exchangeName;
         $this->routingKey = $routingKey;
-        $this->message = $message;
+        $this->messageBody = $messageBody;
         $this->tsCreated = $tsCreated;
         $this->id = $id;
     }
@@ -71,9 +71,9 @@ class MessageEntity
     /**
      * @return array
      */
-    public function getMessage()
+    public function getMessageBody()
     {
-        return $this->message;
+        return $this->messageBody;
     }
 
     /**

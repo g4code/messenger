@@ -59,7 +59,10 @@ class RabbitMq
         $channel = $this->connection->channel();
 
         try {
-            $msg = new AMQPMessage(json_encode($messageData), [RabbitMqConsts::DELIVERY_MODE => RabbitMqConsts::PERSISTENT_DELIVERY_MODE]);
+            $msg = new AMQPMessage(
+                json_encode($messageData),
+                [RabbitMqConsts::DELIVERY_MODE => RabbitMqConsts::PERSISTENT_DELIVERY_MODE]
+            );
             $channel->basic_publish($msg, $this->exchangeName, $this->routingKey);
         } catch (\Exception $e) {
             $this->createMessage($messageData);
@@ -103,7 +106,10 @@ class RabbitMq
     private function getAMQPMessages(array $data)
     {
         return array_map(function ($messageData) {
-            return new AMQPMessage(json_encode($messageData), [RabbitMqConsts::DELIVERY_MODE => RabbitMqConsts::PERSISTENT_DELIVERY_MODE]);
+            return new AMQPMessage(
+                json_encode($messageData),
+                [RabbitMqConsts::DELIVERY_MODE => RabbitMqConsts::PERSISTENT_DELIVERY_MODE]
+            );
         }, $data);
     }
 
@@ -118,7 +124,7 @@ class RabbitMq
             [
                 'exchange_name' => $this->exchangeName,
                 'routing_key' => $this->routingKey,
-                'message' => $messageData,
+                'message_body' => $messageData,
                 'ts_created' => time()
             ]
         );

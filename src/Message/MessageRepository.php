@@ -4,6 +4,8 @@
 namespace G4\Messenger\Message;
 
 
+use Model\Domain\EmailPaid\EmailPaidEntity;
+
 class MessageRepository
 {
     /**
@@ -22,7 +24,7 @@ class MessageRepository
      */
     public function add(MessageEntity $entity)
     {
-        $query = 'INSERT INTO rmq_messages (exchange_name, routing_key, message, ts_created) VALUES (:exchange_name, :routing_key, :message, :ts_created)';
+        $query = 'INSERT INTO rbmq_messages (exchange_name, routing_key, message_body, ts_created) VALUES (:exchange_name, :routing_key, :message_body, :ts_created)';
 
         $stmt = $this->pdo->prepare($query);
         $this->prepareStatement($stmt, $entity);
@@ -42,7 +44,7 @@ class MessageRepository
      */
     public function findAll($limit = 20)
     {
-        $query = sprintf('SELECT * FROM rmq_messages order by ts_created ASC limit %s', $limit);
+        $query = sprintf('SELECT * FROM rbmq_messages order by ts_created ASC limit %s', $limit);
         $stmt = $this->pdo->query($query);
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -51,11 +53,26 @@ class MessageRepository
         }, $results);
     }
 
+    /**
+     * @param MessageEntity $entity
+     */
+    public function delete(MessageEntity $entity)
+    {
+        $query = 'DELETE FROM rbmq_messages WHERE id = :id';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':id', $entity->getId());
+
+        if (!$stmt->execute()) {
+            throw new \RuntimeException(json_encode($stmt->errorInfo()));
+        }
+    }
+
     private function prepareStatement(\PDOStatement $stmt, MessageEntity $entity)
     {
         $stmt->bindValue(':exchange_name', $entity->getExchangeName(), \PDO::PARAM_STR);
         $stmt->bindValue(':routing_key', $entity->getRoutingKey(), \PDO::PARAM_STR);
-        $stmt->bindValue(':message', json_encode($entity->getMessage()), \PDO::PARAM_STR);
+        $stmt->bindValue(':message_body', json_encode($entity->getMessageBody()), \PDO::PARAM_STR);
         $stmt->bindValue(':ts_created', $entity->getTsCreated(), \PDO::PARAM_INT);
     }
 }

@@ -12,7 +12,7 @@ class MessageEntityTest extends \PHPUnit_Framework_TestCase
 
     private $routingKey;
 
-    private $message;
+    private $messageBody;
 
     private $tsCreated;
 
@@ -22,14 +22,14 @@ class MessageEntityTest extends \PHPUnit_Framework_TestCase
     {
         $this->exchangeName = 'exchange_name';
         $this->routingKey = 'routing_key';
-        $this->message = ['foo' => 'bar'];
+        $this->messageBody = ['foo' => 'bar'];
         $this->tsCreated = time();
         $this->id = 123;
 
         $this->entity = new G4\Messenger\Message\MessageEntity(
             $this->exchangeName,
             $this->routingKey,
-            $this->message,
+            $this->messageBody,
             $this->tsCreated,
             $this->id
         );
@@ -39,7 +39,7 @@ class MessageEntityTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals($this->exchangeName, $this->entity->getExchangeName());
         $this->assertEquals($this->routingKey, $this->entity->getRoutingKey());
-        $this->assertEquals($this->message, $this->entity->getMessage());
+        $this->assertEquals($this->messageBody, $this->entity->getMessageBody());
         $this->assertEquals($this->tsCreated, $this->entity->getTsCreated());
         $this->assertEquals($this->id, $this->entity->getId());
     }

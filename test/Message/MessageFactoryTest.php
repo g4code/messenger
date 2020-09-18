@@ -10,7 +10,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $data = [
             'exchange_name' => 'exchange_name_test',
             'routing_key' => 'routing_key_test',
-            'message' => ['foo' => 'bar'],
+            'message_body' => ['foo' => 'bar'],
             'ts_created' => $time,
         ];
 
@@ -20,7 +20,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($entity->getId());
         $this->assertEquals('exchange_name_test', $entity->getExchangeName());
         $this->assertEquals('routing_key_test', $entity->getRoutingKey());
-        $this->assertEquals(['foo' => 'bar'], $entity->getMessage());
+        $this->assertEquals(['foo' => 'bar'], $entity->getMessageBody());
         $this->assertEquals($time, $entity->getTsCreated());
     }
 
@@ -31,7 +31,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $data = [
             'exchange_name' => 'exchange_name_test',
             'routing_key' => 'routing_key_test',
-            'message' => json_encode(['foo' => 'bar']),
+            'message_body' => json_encode(['foo' => 'bar']),
             'ts_created' => $time,
             'id' => 123
         ];
@@ -42,7 +42,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(123, $entity->getId());
         $this->assertEquals('exchange_name_test', $entity->getExchangeName());
         $this->assertEquals('routing_key_test', $entity->getRoutingKey());
-        $this->assertEquals(['foo' => 'bar'], $entity->getMessage());
+        $this->assertEquals(['foo' => 'bar'], $entity->getMessageBody());
         $this->assertEquals($time, $entity->getTsCreated());
     }
 }
