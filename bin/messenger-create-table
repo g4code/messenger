@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+
+$options = getopt('', ['dsn:','username:', 'password:']);
+
+if (!array_key_exists('dsn', $options)) {
+    print "--dsn not set, exiting...\n";
+    exit(1);
+}
+
+if (!array_key_exists('username', $options)) {
+    print "--username not set, exiting...\n";
+    exit(1);
+}
+
+if (!array_key_exists('password', $options)) {
+    print "--password not set, exiting...\n";
+    exit(1);
+}
+
+ob_get_level() && ob_end_flush();
+
+$pdo = new \PDO($options['dsn'], $options['username'], $options['password']);
+$pdo->exec('SET SESSION wait_timeout=77760000');
+$pdo->exec('SET NAMES utf8');
+
+$query = 'CREATE TABLE IF NOT EXISTS `rmq_messages` (
+
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `exchange_name` TEXT NOT NULL,
+  `routing_key` TEXT NOT NULL,
+  `message` TEXT NOT NULL,
+  `ts_created` INT(10) UNSIGNED NOT NULL,
+   PRIMARY KEY  (`id`),
+   KEY `ts_created` (`ts_created`)
+
+);';
+$pdo->exec($query);
+
+print "Table messages created successfully.\n";

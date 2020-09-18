@@ -37,6 +37,9 @@
     "squizlabs/php_codesniffer" : "3.*",
     "g4/code-coverage"          : "1.*"
   },
+  "bin": [
+    "bin/messenger-create-table"
+  ],
   "scripts": {
     "unit-test": [
       "vendor/bin/phpunit -c tests/unit/phpunit.xml --colors=always --coverage-html tests/unit/coverage"

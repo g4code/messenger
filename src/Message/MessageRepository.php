@@ -22,7 +22,7 @@ class MessageRepository
      */
     public function add(MessageEntity $entity)
     {
-        $query = 'INSERT INTO messages (exchange_name, routing_key, message, ts_created) VALUES (:exchange_name, :routing_key, :message, :ts_created)';
+        $query = 'INSERT INTO rmq_messages (exchange_name, routing_key, message, ts_created) VALUES (:exchange_name, :routing_key, :message, :ts_created)';
 
         $stmt = $this->pdo->prepare($query);
         $this->prepareStatement($stmt, $entity);
@@ -42,7 +42,7 @@ class MessageRepository
      */
     public function findAll($limit = 20)
     {
-        $query = sprintf('SELECT * FROM messages order by ts_created ASC limit %s', $limit);
+        $query = sprintf('SELECT * FROM rmq_messages order by ts_created ASC limit %s', $limit);
         $stmt = $this->pdo->query($query);
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
