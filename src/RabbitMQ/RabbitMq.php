@@ -9,11 +9,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 class RabbitMq
 {
     /**
-     * @var AMQPStreamConnection
-     */
-    private $connection;
-
-    /**
      * @var string
      */
     private $exchangeName;
@@ -23,14 +18,19 @@ class RabbitMq
      */
     private $routingKey;
 
+    /**
+     * @var AMQPStreamConnection
+     */
+    private $connection;
+
     public function __construct(
-        AMQPStreamConnection $connection = null,
         $exchangeName,
-        $routingKey
+        $routingKey,
+        AMQPStreamConnection $connection = null
     ) {
-        $this->connection = $connection;
         $this->exchangeName = $exchangeName;
         $this->routingKey = $routingKey;
+        $this->connection = $connection;
     }
 
     /**

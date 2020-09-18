@@ -38,7 +38,7 @@ class RabbitMqTest extends \PHPUnit_Framework_TestCase
         $this->routingKey = 'routing_key';
         $this->channel = $this->createMock(AMQPChannel::class);
 
-        $this->rabbitMq = new G4\Messenger\RabbitMQ\RabbitMq($this->connection, $this->exchangeName, $this->routingKey);
+        $this->rabbitMq = new G4\Messenger\RabbitMQ\RabbitMq($this->exchangeName, $this->routingKey, $this->connection);
     }
 
     public function testSendMessage()
