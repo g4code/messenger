@@ -31,14 +31,17 @@ class RabbitMqTest extends \PHPUnit_Framework_TestCase
      */
     private $channel;
 
+    private $pdo;
+
     public function setUp()
     {
         $this->connection = $this->createMock(AMQPStreamConnection::class);
         $this->exchangeName = 'exchange_name';
         $this->routingKey = 'routing_key';
         $this->channel = $this->createMock(AMQPChannel::class);
+        $this->pdo = $this->createMock(\PDO::class);
 
-        $this->rabbitMq = new G4\Messenger\RabbitMQ\RabbitMq($this->exchangeName, $this->routingKey, $this->connection);
+        $this->rabbitMq = new G4\Messenger\RabbitMQ\RabbitMq($this->exchangeName, $this->routingKey, $this->pdo, $this->connection);
     }
 
     public function testSendMessage()
