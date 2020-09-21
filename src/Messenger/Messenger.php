@@ -8,8 +8,6 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class Messenger
 {
-    const LIMIT = 250;
-
     /**
      * @var AMQPStreamConnection
      */
@@ -34,11 +32,11 @@ class Messenger
         $this->connection = $connection;
     }
 
-    public function restoreMessages()
+    public function restoreMessages($limit = 250)
     {
         $repository = new MessageRepository($this->pdo);
 
-        $messages = $repository->findAll(self::LIMIT);
+        $messages = $repository->findAll($limit);
         foreach ($messages as $message) {
             (new RabbitMq(
                 $message->getExchangeName(),

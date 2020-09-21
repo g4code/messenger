@@ -11,6 +11,11 @@ composer require g4/messenger
 
 ## Usage
 
+To create rbmq messages table run:
+```sh
+php vendor/bin/messenger-create-table --dbname your_db_name --dbport your_db_port --username your_db_username --password your_db_password --host your_db_host
+```
+
 ```php
 <?php 
 
