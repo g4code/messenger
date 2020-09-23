@@ -25,7 +25,7 @@ $query = 'CREATE TABLE IF NOT EXISTS `rbmq_messages` (
    PRIMARY KEY  (`id`),
    KEY `ts_created` (`ts_created`)
 
-);';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;';
 $pdo->exec($query);
 
 print "Table `rbmq_messages` created successfully.\n";
