@@ -32,11 +32,16 @@ class Messenger
         $this->connection = $connection;
     }
 
+    /**
+     * @param int $limit
+     * @return int
+     */
     public function restoreMessages($limit = 250)
     {
         $repository = new MessageRepository($this->pdo);
 
         $messages = $repository->findAll($limit);
+
         foreach ($messages as $message) {
             (new RabbitMq(
                 $message->getExchangeName(),
@@ -48,5 +53,7 @@ class Messenger
 
             $repository->delete($message);
         }
+
+        return count($messages);
     }
 }
