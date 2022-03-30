@@ -47,6 +47,14 @@ class RabbitMq
     }
 
     /**
+     * @return string
+     */
+    public function getRoutingKey()
+    {
+        return $this->routingKey;
+    }
+
+    /**
      * @param array $messageData
      */
     public function sendMessage(array $messageData)
